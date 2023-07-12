@@ -62,30 +62,32 @@ void problem(DomainS *pDomain)
     for (k=ks; k<=ke; k++) {
       for (j=js; j<=je; j++) {
         for (i=is; i<=ie; i++) {
-	  ir = ie - is
-	  iphi = je - js
+	  cc_pos(pGrid, i, j, k, &x1, &x2, &x3);
+          r = sqrt(x1 * x1 + x3 * x3);
+      	  phi = x2;
 
-	  r = pDomain->r_min + ir * (pDomain->r_max - pDomain->r_min) / pGrid->nr;
-	  phi = iphi * 2 * PI / pGrid->nphi;
+	  //int r = pDomain->r_min + ir * (pDomain->r_max - pDomain->r_min) / pGrid->nr;
+	  //int phi = iphi * 2 * PI / pGrid->nphi;
 
-	  x = r * cos(phi);     //converting polar to cartesian
-	  y = r * sin(phi);
+	  //x = r * cos(phi);     //converting polar to cartesian
+	  //y = r * sin(phi);
 
 	  //calculate Kelperian velocity based on radius
-	  KV = sqrt((G * M) / ir); //replace G and M with actual values
+	  Real G = 6.67 * 10^-11
+	  Real M = 1.5e6
+	  KV = sqrt((G * M) / r);
 
 	  //set the azimuthal velocity to the Keplerian velocity
-	  pGrid->U[k][j][i].M2 = KV	
-
-          cc_pos(pGrid,i,j,k,&x1,&x2,&x3);
+	  pGrid->U[k][j][i].M2 = KV * pGrid->U[k][j][i].d;
+		  
           pGrid->U[k][j][i].d = 1.0;
-          pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
-          pGrid->U[k][j][i].M2 = amp*(ran2(&iseed) - 0.5);
-          pGrid->U[k][j][i].M3 = 0.0;
-          if (fabs(x2) < 0.25) {
-  	    pGrid->U[k][j][i].d = drat;
-            pGrid->U[k][j][i].M1 = -drat*(vflow + amp*(ran2(&iseed) - 0.5));
-            pGrid->U[k][j][i].M2 = drat*amp*(ran2(&iseed) - 0.5);
+          //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
+          //pGrid->U[k][j][i].M2 = amp*(ran2(&iseed) - 0.5);
+          //pGrid->U[k][j][i].M3 = 0.0;
+          //if (fabs(x2) < 0.25) {
+  	    //pGrid->U[k][j][i].d = drat;
+            //pGrid->U[k][j][i].M1 = -drat*(vflow + amp*(ran2(&iseed) - 0.5));
+            //pGrid->U[k][j][i].M2 = drat*amp*(ran2(&iseed) - 0.5);
           } else if (fabs(x2) < 0.35) {
        	    pGrid->U[k][j][i].d = sqrt(drat); 
             pGrid->U[k][j][i].M1 = -sqrt(drat)*(vflow + amp*(ran2(&iseed) - 0.5));
