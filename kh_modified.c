@@ -56,13 +56,20 @@ void problem(DomainS *pDomain)
   b0  = par_getd("problem","b0");
 #endif
 
-// User input for mass value
-Real mass_phys;  // Physical mass in desired units
-printf("Enter the mass value in desired solar masses: ");
+//User input for actual mass and density values
+Real mass_phys;  //Physical mass in desired units
+Real density_phys; //Physical density in desired units
+
+printf("Enter the mass value in solar masses: ");
 scanf("%lf", &mass_phys);
 
-//unsure about this
-Real M = mass_phys / m0;  //where m0 is normalisation factor 
+printf("Enter the density value in g/cm^3: ");
+scanf("%lf", &density_phys);
+
+//Unsure about this
+//setting M and d to code units
+Real M = mass_phys / m0;  //Where m0 is normalisation factor 
+Real d = density_phys / rho0 //where rho0 is normalisation factor
 	
 /* iprob=1.  Two uniform streams moving at +/- vflow, random perturbations */
 
