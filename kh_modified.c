@@ -69,7 +69,7 @@ scanf("%lf", &density_phys);
 //Unsure about this
 //setting M and d to code units
 Real M = mass_phys / m0;  //Where m0 is normalisation factor 
-Real d = density_phys / rho0 //where rho0 is normalisation factor
+Real d = density_phys / rho0; //where rho0 is normalisation factor
 	
 /* iprob=1.  Two uniform streams moving at +/- vflow, random perturbations */
 
