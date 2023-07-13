@@ -77,6 +77,7 @@ Real d = density_phys / rho0 //where rho0 is normalisation factor
     for (k=ks; k<=ke; k++) {
       for (j=js; j<=je; j++) {
         for (i=is; i<=ie; i++) {
+	  Real x1, x2, x3;
 	  cc_pos(pGrid, i, j, k, &x1, &x2, &x3);
           r = sqrt(x1 * x1 + x2 * x2);
       	  phi = x2;
@@ -88,7 +89,7 @@ Real d = density_phys / rho0 //where rho0 is normalisation factor
 	  //y = r * sin(phi);
 
 	  //calculate Kelperian velocity based on radius
-	  Real G = 6.67 * 10^-8; //cm^3 g^-1 s^-2
+	  Real G = 6.67e-8; //cm^3 g^-1 s^-2
 	  KV = sqrt((G * M) / r);
 
 	  //set the azimuthal velocity to the Keplerian velocity
