@@ -79,8 +79,8 @@ Real d = density_phys / rho0 //where rho0 is normalisation factor
         for (i=is; i<=ie; i++) {
 	  Real x1, x2, x3;
 	  cc_pos(pGrid, i, j, k, &x1, &x2, &x3);
-          r = sqrt(x1 * x1 + x2 * x2);
-      	  phi = x2;
+          Real r = sqrt(x1 * x1 + x2 * x2);
+      	  Real phi = x2;
 
 	  //int r = pDomain->r_min + ir * (pDomain->r_max - pDomain->r_min) / pGrid->nr;
 	  //int phi = iphi * 2 * PI / pGrid->nphi;
