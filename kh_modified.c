@@ -42,6 +42,8 @@ void problem(DomainS *pDomain)
   long int iseed = -1;
   static int frst=1;  /* flag so new history variables enrolled only once */
 
+  Real x1, x2, x3; 
+	
   is = pGrid->is; ie = pGrid->ie;
   js = pGrid->js; je = pGrid->je;
   ks = pGrid->ks; ke = pGrid->ke;
@@ -68,8 +70,8 @@ scanf("%lf", &density_phys);
 
 //Unsure about this
 //setting M and d to code units
-Real M = mass_phys / m0;  //Where m0 is normalisation factor 
-Real d = density_phys / rho0; //where rho0 is normalisation factor
+Real M = mass_phys / 1;  //Where 1 is normalisation factor 
+Real d = density_phys / 1; //where 1 is normalisation factor
 	
 /* iprob=1.  Two uniform streams moving at +/- vflow, random perturbations */
 
@@ -77,7 +79,6 @@ Real d = density_phys / rho0; //where rho0 is normalisation factor
     for (k=ks; k<=ke; k++) {
       for (j=js; j<=je; j++) {
         for (i=is; i<=ie; i++) {
-	  Real x1, x2, x3;
 	  cc_pos(pGrid, i, j, k, &x1, &x2, &x3);
           Real r = sqrt(x1 * x1 + x2 * x2);
       	  Real phi = x2;
