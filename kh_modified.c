@@ -56,6 +56,14 @@ void problem(DomainS *pDomain)
   b0  = par_getd("problem","b0");
 #endif
 
+// User input for mass value
+Real mass_phys;  // Physical mass in desired units
+printf("Enter the mass value in desired solar masses: ");
+scanf("%lf", &mass_phys);
+
+//unsure about this
+Real M = mass_phys / m0;  //where m0 is normalisation factor 
+	
 /* iprob=1.  Two uniform streams moving at +/- vflow, random perturbations */
 
   if (iprob == 1) {
@@ -63,7 +71,7 @@ void problem(DomainS *pDomain)
       for (j=js; j<=je; j++) {
         for (i=is; i<=ie; i++) {
 	  cc_pos(pGrid, i, j, k, &x1, &x2, &x3);
-          r = sqrt(x1 * x1 + x3 * x3);
+          r = sqrt(x1 * x1 + x2 * x2);
       	  phi = x2;
 
 	  //int r = pDomain->r_min + ir * (pDomain->r_max - pDomain->r_min) / pGrid->nr;
@@ -73,8 +81,7 @@ void problem(DomainS *pDomain)
 	  //y = r * sin(phi);
 
 	  //calculate Kelperian velocity based on radius
-	  Real G = 6.67 * 10^-11
-	  Real M = 1.5e6
+	  Real G = 6.67 * 10^-8 //cm^3 g^-1 s^-2
 	  KV = sqrt((G * M) / r);
 
 	  //set the azimuthal velocity to the Keplerian velocity
@@ -88,11 +95,11 @@ void problem(DomainS *pDomain)
   	    //pGrid->U[k][j][i].d = drat;
             //pGrid->U[k][j][i].M1 = -drat*(vflow + amp*(ran2(&iseed) - 0.5));
             //pGrid->U[k][j][i].M2 = drat*amp*(ran2(&iseed) - 0.5);
-          } else if (fabs(x2) < 0.35) {
-       	    pGrid->U[k][j][i].d = sqrt(drat); 
-            pGrid->U[k][j][i].M1 = -sqrt(drat)*(vflow + amp*(ran2(&iseed) - 0.5));
-            pGrid->U[k][j][i].M2 = sqrt(drat*amp*(ran2(&iseed) - 0.5));
-       	  }
+          //} else if (fabs(x2) < 0.35) {
+       	    //pGrid->U[k][j][i].d = sqrt(drat); 
+            //pGrid->U[k][j][i].M1 = -sqrt(drat)*(vflow + amp*(ran2(&iseed) - 0.5));
+            //pGrid->U[k][j][i].M2 = sqrt(drat*amp*(ran2(&iseed) - 0.5));
+       	  //}
 
 /* Pressure scaled to give a sound speed of 1 with gamma=1.4 */
 #ifndef BAROTROPIC
