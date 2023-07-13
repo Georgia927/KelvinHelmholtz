@@ -88,7 +88,7 @@ Real d = density_phys / rho0 //where rho0 is normalisation factor
 	  //y = r * sin(phi);
 
 	  //calculate Kelperian velocity based on radius
-	  Real G = 6.67 * 10^-8 //cm^3 g^-1 s^-2
+	  Real G = 6.67 * 10^-8; //cm^3 g^-1 s^-2
 	  KV = sqrt((G * M) / r);
 
 	  //set the azimuthal velocity to the Keplerian velocity
