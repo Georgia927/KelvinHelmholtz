@@ -59,19 +59,24 @@ void problem(DomainS *pDomain)
 #endif
 
 //User input for actual mass and density values
-Real mass_phys;  //Physical mass in desired units
-Real density_phys; //Physical density in desired units
+Real M;  //Physical mass in desired units
+Real d; //Physical density in desired units
+Real v; //Physical viscosity in desired units
 
 printf("Enter the mass value in solar masses: ");
-scanf("%lf", &mass_phys);
+scanf("%lf", &M);
 
 printf("Enter the density value in g/cm^3: ");
-scanf("%lf", &density_phys);
+scanf("%lf", &d);
+
+printf("Enter the viscosity value in g * cm^-1 * s^-1: ");
+scanf("%lf", &v);
 
 //Unsure about this
 //setting M and d to code units
-Real M = mass_phys / 1;  //Where 1 is normalisation factor 
-Real d = density_phys / 1; //where 1 is normalisation factor
+//Real M = M / m0;  //Where m0 is normalisation factor 
+//Real d = d / d0; //where d0 is normalisation factor
+//Real v = v / v0; //where v0 is normalisation factor
 	
 /* iprob=1.  Two uniform streams moving at +/- vflow, random perturbations */
 
@@ -90,11 +95,16 @@ Real d = density_phys / 1; //where 1 is normalisation factor
 	  //y = r * sin(phi);
 
 	  //calculate Kelperian velocity based on radius
-	  Real G = 6.67e-8; //cm^3 g^-1 s^-2
+	  Real G = 1; //cm^3 g^-1 s^-2
 	  KV = sqrt((G * M) / r);
 
+	  int KAV = KV / r; //Keplerian angular velocity
+          Int v_eff = v * pow(r, -1.5); //effective viscosity
+
+	  Real v_azimuthal = KAV - (3 * v_eff / (2 * r)) * (pGrid->U[k][j][i+1].M2 - pGrid->U[k][j][i-1].M2);
+
 	  //set the azimuthal velocity to the Keplerian velocity
-	  pGrid->U[k][j][i].M2 = KV * pGrid->U[k][j][i].d;
+	  pGrid->U[k][j][i].M2 = v_azimuthal * pGrid->U[k][j][i].d;
 		  
           pGrid->U[k][j][i].d = 1.0;
           //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
