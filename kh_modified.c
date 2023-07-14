@@ -99,7 +99,7 @@ scanf("%lf", &v);
 	  KV = sqrt((G * M) / r);
 
 	  int KAV = KV / r; //Keplerian angular velocity
-          Int v_eff = v * pow(r, -1.5); //effective viscosity
+          int v_eff = v * pow(r, -1.5); //effective viscosity
 
 	  Real v_azimuthal = KAV - (3 * v_eff / (2 * r)) * (pGrid->U[k][j][i+1].M2 - pGrid->U[k][j][i-1].M2);
 
