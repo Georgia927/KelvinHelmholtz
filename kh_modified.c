@@ -52,16 +52,13 @@ void problem(DomainS *pDomain)
 
   iprob = par_geti("problem","iprob");
   vflow = par_getd("problem","vflow");
-  drat = par_getd("problem","drat");
+  drat = par_getd("problem","drat"); 
   amp = par_getd("problem","amp");
 #ifdef MHD
   b0  = par_getd("problem","b0");
 #endif
 
-//User input for actual mass and density values
-Real M;  //Physical mass in desired units
-Real d; //Physical density in desired units
-Real v; //Physical viscosity in desired units
+Real M, d, v;
 
 printf("Enter the mass value in solar masses: ");
 scanf("%lf", &M);
