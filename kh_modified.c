@@ -103,7 +103,7 @@ scanf("%lf", &v);
 
 	  //azimuthal momentum, incorporating azimuthal velocity and density 
 	  
-	  pGrid->U[k][j][i].d = 1.0;
+	  pGrid->U[k][j][i].d = d;
 		
 	  pGrid->U[k][j][i].M1 = v_azimuthal_x * pGrid->U[k][j][i].d;
 	  pGrid->U[k][j][i].M2 = v_azimuthal_y * pGrid->U[k][j][i].d;
