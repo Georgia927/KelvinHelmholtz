@@ -94,16 +94,18 @@ scanf("%lf", &v);
 	  Real G = 1; //cm^3 g^-1 s^-2
 	  KV = sqrt((G * M) / r);
 
-	  int KAV = KV / r; //Keplerian angular velocity
-          int v_eff = v * pow(r, -1.5); //power law for effective viscosity
+	  Real KAV = KV / r; //Keplerian angular velocity
+          Real v_eff = v * pow(r, -1.5); //power law for effective viscosity
  
           //Finding azimuthal velocity by subtracting the contribution of the viscous term from the KAV	 
 	  Real v_azimuthal = KAV - (3 * v_eff / (2 * r)) * (pGrid->U[k][j][i+1].M2 - pGrid->U[k][j][i-1].M2);
 
 	  //azimuthal momentum, incorporating azimuthal velocity and density 
+	  
+	  pGrid->U[k][j][i].d = 1.0;
+		
 	  pGrid->U[k][j][i].M2 = v_azimuthal * pGrid->U[k][j][i].d;
 		  
-          pGrid->U[k][j][i].d = 1.0;
           //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
           //pGrid->U[k][j][i].M2 = amp*(ran2(&iseed) - 0.5);
           //pGrid->U[k][j][i].M3 = 0.0;
