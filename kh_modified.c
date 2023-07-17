@@ -98,13 +98,15 @@ scanf("%lf", &v);
           Real v_eff = v * pow(r, -1.5); //power law for effective viscosity
  
           //Finding azimuthal velocity by subtracting the contribution of the viscous term from the KAV	 
-	  Real v_azimuthal = KAV - (3 * v_eff / (2 * r)) * (pGrid->U[k][j][i+1].M2 - pGrid->U[k][j][i-1].M2);
+	  Real v_azimuthal_x = KAV - (3 * v_eff / (2 * r)) * (pGrid->U[k][j][i+1].M1 - pGrid->U[k][j][i-1].M1);
+	  Real v_azimuthal_y = KAV - (3 * v_eff / (2 * r)) * (pGrid->U[k][j][i+1].M2 - pGrid->U[k][j][i-1].M2);
 
 	  //azimuthal momentum, incorporating azimuthal velocity and density 
 	  
 	  pGrid->U[k][j][i].d = 1.0;
 		
-	  pGrid->U[k][j][i].M2 = v_azimuthal * pGrid->U[k][j][i].d;
+	  pGrid->U[k][j][i].M1 = v_azimuthal_x * pGrid->U[k][j][i].d;
+	  pGrid->U[k][j][i].M2 = v_azimuthal_y * pGrid->U[k][j][i].d;
 		  
           //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
           //pGrid->U[k][j][i].M2 = amp*(ran2(&iseed) - 0.5);
