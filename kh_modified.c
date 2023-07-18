@@ -31,6 +31,7 @@ static Real hst_Bz(const GridS *pG, const int i, const int j, const int k);
 
 /*=========================== PUBLIC FUNCTIONS ===============================*/
 /*----------------------------------------------------------------------------*/
+
 /* problem:  */
 
 void problem(DomainS *pDomain)
@@ -41,9 +42,9 @@ void problem(DomainS *pDomain)
   Real amp,drat,vflow,b0,a,sigma,r, phi, x, y;
   long int iseed = -1;
   static int frst=1;  /* flag so new history variables enrolled only once */
+ 
+  Real x1, x2, x3;
 
-  Real x1, x2, x3; 
-	
   is = pGrid->is; ie = pGrid->ie;
   js = pGrid->js; je = pGrid->je;
   ks = pGrid->ks; ke = pGrid->ke;
@@ -52,7 +53,7 @@ void problem(DomainS *pDomain)
 
   iprob = par_geti("problem","iprob");
   vflow = par_getd("problem","vflow");
-  drat = par_getd("problem","drat"); 
+  drat = par_getd("problem","drat");
   amp = par_getd("problem","amp");
 #ifdef MHD
   b0  = par_getd("problem","b0");
@@ -73,32 +74,24 @@ scanf("%lf", &d);
       for (j=js; j<=je; j++) {
         for (i=is; i<=ie; i++) {
 	  cc_pos(pGrid, i, j, k, &x1, &x2, &x3);
-          Real r = sqrt(x1 * x1 + x2 * x2);
+          
+	  Real r = sqrt(x1 * x1 + x2 * x2);
       	  Real phi = x2;
 
 	  //calculate Kelperian velocity based on radius
-	  Real G = 1.0; //cm^3 g^-1 s^-2
+	  Real G = 1; // cm^3 g^-1 s^-2
 	  Real KV = sqrt((G * M) / r);
-
-	  //calculate azimuthal velocity for Keplerian rotation
 	  Real v_phi = KV * r;
-	
-	  pGrid->U[k][j][i].d = d;
-		  
-          //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
+	   
+          pGrid->U[k][j][i].d = 1.0;
+
+	  //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
           //pGrid->U[k][j][i].M2 = amp*(ran2(&iseed) - 0.5);
           //pGrid->U[k][j][i].M3 = 0.0;
-          //if (fabs(x2) < 0.25) {
-  	    //pGrid->U[k][j][i].d = drat;
-            //pGrid->U[k][j][i].M1 = -drat*(vflow + amp*(ran2(&iseed) - 0.5));
-            //pGrid->U[k][j][i].M2 = drat*amp*(ran2(&iseed) - 0.5);
-          //} else if (fabs(x2) < 0.35) {
-       	    //pGrid->U[k][j][i].d = sqrt(drat); 
-            //pGrid->U[k][j][i].M1 = -sqrt(drat)*(vflow + amp*(ran2(&iseed) - 0.5));
-            //pGrid->U[k][j][i].M2 = sqrt(drat*amp*(ran2(&iseed) - 0.5));
-       	  //}
+     
 
-/* Pressure scaled to give a sound speed of 1 with gamma=1.4 */
+	  /* Pressure scaled to give a sound speed of 1 with gamma=1.4 */
+
 #ifndef BAROTROPIC
           pGrid->U[k][j][i].E = 2.5/Gamma_1
              + 0.5*(SQR(pGrid->U[k][j][i].M1) + SQR(pGrid->U[k][j][i].M2)
@@ -338,7 +331,7 @@ static Real hst_Bx(const GridS *pG, const int i, const int j, const int k)
 }
 
 /*! \fn static Real hst_By(const GridS *pG, const int i,const int j,const int k)
- *  \brief y-component of B-field */
+ *  \brief y-component of B-fieldmak */
 static Real hst_By(const GridS *pG, const int i, const int j, const int k)
 {
   return pG->U[k][j][i].B2c;
