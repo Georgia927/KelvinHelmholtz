@@ -58,21 +58,13 @@ void problem(DomainS *pDomain)
   b0  = par_getd("problem","b0");
 #endif
 
-Real M, d, v;
+Real M, d;
 
 printf("Enter the mass value in solar masses: ");
 scanf("%lf", &M);
 
 printf("Enter the density value in g/cm^3: ");
 scanf("%lf", &d);
-
-printf("Enter the viscosity value in g * cm^-1 * s^-1: ");
-scanf("%lf", &v);
-
-//setting M and d to code units
-//Real M = M / m0;  //Where m0 is normalisation factor 
-//Real d = d / d0; //where d0 is normalisation factor
-//Real v = v / v0; //where v0 is normalisation factor
 	
 /* iprob=1.  Two uniform streams moving at +/- vflow, random perturbations */
 
@@ -84,29 +76,14 @@ scanf("%lf", &v);
           Real r = sqrt(x1 * x1 + x2 * x2);
       	  Real phi = x2;
 
-	  //int r = pDomain->r_min + ir * (pDomain->r_max - pDomain->r_min) / pGrid->nr;
-	  //int phi = iphi * 2 * PI / pGrid->nphi;
-
-	  //x = r * cos(phi);     //converting polar to cartesian
-	  //y = r * sin(phi);
-
 	  //calculate Kelperian velocity based on radius
-	  Real G = 1; //cm^3 g^-1 s^-2
-	  KV = sqrt((G * M) / r);
+	  Real G = 1.0; //cm^3 g^-1 s^-2
+	  Real KV = sqrt((G * M) / r);
 
-	  Real KAV = KV / r; //Keplerian angular velocity
-          Real v_eff = v * pow(r, -1.5); //power law for effective viscosity
- 
-          //Finding azimuthal velocity by subtracting the contribution of the viscous term from the KAV	 
-	  Real v_azimuthal_x = KAV - (3 * v_eff / (2 * r)) * (pGrid->U[k][j][i+1].M1 - pGrid->U[k][j][i-1].M1);
-	  Real v_azimuthal_y = KAV - (3 * v_eff / (2 * r)) * (pGrid->U[k][j][i+1].M2 - pGrid->U[k][j][i-1].M2);
-
-	  //azimuthal momentum, incorporating azimuthal velocity and density 
-	  
+	  //calculate azimuthal velocity for Keplerian rotation
+	  Real v_phi = KV * r;
+	
 	  pGrid->U[k][j][i].d = d;
-		
-	  pGrid->U[k][j][i].M1 = v_azimuthal_x * pGrid->U[k][j][i].d;
-	  pGrid->U[k][j][i].M2 = v_azimuthal_y * pGrid->U[k][j][i].d;
 		  
           //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
           //pGrid->U[k][j][i].M2 = amp*(ran2(&iseed) - 0.5);
