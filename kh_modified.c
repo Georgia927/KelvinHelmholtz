@@ -34,6 +34,12 @@ static Real hst_Bz(const GridS *pG, const int i, const int j, const int k);
 
 /* problem:  */
 
+Real rotational_velocity(Real r);
+
+Real rotational_velocity(Real r) {
+	return pow(r, -0.5);
+}
+
 void problem(DomainS *pDomain)
 {
   GridS *pGrid = pDomain->Grid;
@@ -59,13 +65,16 @@ void problem(DomainS *pDomain)
   b0  = par_getd("problem","b0");
 #endif
 
-Real M, d;
+Real M, d, v;
 
 printf("Enter the mass value in solar masses: ");
 scanf("%lf", &M);
 
 printf("Enter the density value in g/cm^3: ");
 scanf("%lf", &d);
+
+printf("Enter the viscosity value in g * cm^-1 * s^-1: ");
+scanf("%lf", &v);
 	
 /* iprob=1.  Two uniform streams moving at +/- vflow, random perturbations */
 
@@ -82,8 +91,16 @@ scanf("%lf", &d);
 	  Real G = 1; // cm^3 g^-1 s^-2
 	  Real KV = sqrt((G * M) / r);
 	  Real v_phi = KV * r;
+
+          //calculate rotational velocity component
+	  Real v_rot = rotational_velocity(r);
+	  //combining Keplerian and rotational velocity
+	  Real v_azimuthal = v_phi + v_rot;
 	   
           pGrid->U[k][j][i].d = 1.0;
+
+   	  pGrid->U[k][j][i].M1 = -v_azimuthal * sin(phi);
+          pGrid->U[k][j][i].M2 = v_azimuthal * cos(phi);
 
 	  //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
           //pGrid->U[k][j][i].M2 = amp*(ran2(&iseed) - 0.5);
