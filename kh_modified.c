@@ -34,12 +34,6 @@ static Real hst_Bz(const GridS *pG, const int i, const int j, const int k);
 
 /* problem:  */
 
-Real rotational_velocity(Real r);
-
-Real rotational_velocity(Real r) {
-	return pow(r, -0.5);
-}
-
 void problem(DomainS *pDomain)
 {
   GridS *pGrid = pDomain->Grid;
@@ -85,22 +79,17 @@ scanf("%lf", &v);
 	  cc_pos(pGrid, i, j, k, &x1, &x2, &x3);
           
 	  Real r = sqrt(x1 * x1 + x2 * x2);
-      	  Real phi = x2;
+      	  Real phi = atan2(x2, x1);
 
 	  //calculate Kelperian velocity based on radius
 	  Real G = 1; // cm^3 g^-1 s^-2
 	  Real KV = sqrt((G * M) / r);
 	  Real v_phi = KV * r;
-
-          //calculate rotational velocity component
-	  Real v_rot = rotational_velocity(r);
-	  //combining Keplerian and rotational velocity
-	  Real v_azimuthal = v_phi + v_rot;
 	   
           pGrid->U[k][j][i].d = 1.0;
 
-   	  pGrid->U[k][j][i].M1 = -v_azimuthal * sin(phi);
-          pGrid->U[k][j][i].M2 = v_azimuthal * cos(phi);
+   	  pGrid->U[k][j][i].M1 = d * KV * sin(phi);
+          pGrid->U[k][j][i].M2 = -d * KV * cos(phi);
 
 	  //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
           //pGrid->U[k][j][i].M2 = amp*(ran2(&iseed) - 0.5);
