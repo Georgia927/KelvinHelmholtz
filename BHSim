@@ -1,6 +1,6 @@
 #include "copyright.h"
 /*============================================================================*/
-/*! \file kh.c
+/*! \file BHSim.c
  *  \brief Problem generator for KH instability. 
  *
  * PURPOSE: Problem generator for KH instability.  Sets up two versions:
@@ -84,12 +84,13 @@ scanf("%lf", &v);
 	  //calculate Kelperian velocity based on radius
 	  Real G = 1; // cm^3 g^-1 s^-2
 	  Real KV = sqrt((G * M) / r);
+	
 	  Real v_phi = KV * r;
 	   
           pGrid->U[k][j][i].d = 1.0;
 
-   	  pGrid->U[k][j][i].M1 = d * KV * sin(phi);
-          pGrid->U[k][j][i].M2 = -d * KV * cos(phi);
+   	  pGrid->U[k][j][i].M1 = -d * KV * sin(phi);
+          pGrid->U[k][j][i].M2 = d * KV * cos(phi);
 
 	  //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
           //pGrid->U[k][j][i].M2 = amp*(ran2(&iseed) - 0.5);
