@@ -92,11 +92,6 @@ scanf("%lf", &v);
    	  pGrid->U[k][j][i].M1 = -d * KV * sin(phi);
           pGrid->U[k][j][i].M2 = d * KV * cos(phi);
 
-	  //pGrid->U[k][j][i].M1 = vflow + amp*(ran2(&iseed) - 0.5);
-          //pGrid->U[k][j][i].M2 = amp*(ran2(&iseed) - 0.5);
-          //pGrid->U[k][j][i].M3 = 0.0;
-     
-
 	  /* Pressure scaled to give a sound speed of 1 with gamma=1.4 */
 
 #ifndef BAROTROPIC
