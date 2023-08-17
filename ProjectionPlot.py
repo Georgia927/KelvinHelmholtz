@@ -11,4 +11,4 @@ for vtk_file in vtk_files:
     
     ds = yt.load(file_path)
     
-    p = yt.ProjectionPlot(ds, "z", ("athena", "d")).save()
+    p = yt.SlicePlot(ds, "z", ("athena", "momentum_x")).save()
