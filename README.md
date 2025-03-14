@@ -1,19 +1,17 @@
 # Athena Setup and Simulation Execution
 
-This repository contains a Bash script to configure, build, and run a specific Athena simulation with predefined settings. Athena is a grid-based code for astrophysical magnetohydrodynamics (MHD) simulations, and this script is configured to simulate a black hole system using specific modules and parameters.
+This repository contains a Bash script to configure, build, and run MHD accretion disk simulations in Athena with the viscosity and gravity modules enabled.
 
 ## Requirements
 
-- **Athena source code** (version 4.2) should be located in a folder named `athena4.2` on your desktop.
+- **Athena source code** (version 4.2) should be located in a folder named `athena4.2`.
 - **gcc and other compilation dependencies** for building Athena.
-  
-Ensure you have these dependencies installed before running the script.
 
 ## Instructions
 
 ### 1. Setting Up the Directory Structure
 
-Ensure your project directory is set up as follows:
+Ensure project directory is set up as follows:
 
 ```bash
 <your_desktop_path>
